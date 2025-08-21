@@ -22,6 +22,7 @@ import java.util.Objects;
 @Configuration
 @ComponentScan("code")
 @EnableWebMvc
+@EnableAspectJAutoProxy
 @PropertySource("classpath:database.properties")
 public class SpringConfig implements WebMvcConfigurer {
 
