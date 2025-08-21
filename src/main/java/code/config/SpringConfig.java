@@ -1,5 +1,8 @@
 package code.config;
 
+import code.LoggingInterceptor;
+import java.util.Objects;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -85,4 +88,10 @@ public class SpringConfig implements WebMvcConfigurer {
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
     }
+
+  @Override
+  public void addInterceptors(
+      org.springframework.web.servlet.config.annotation.InterceptorRegistry registry) {
+    registry.addInterceptor(new LoggingInterceptor());
+  }
 }
