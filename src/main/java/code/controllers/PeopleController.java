@@ -2,6 +2,7 @@ package code.controllers;
 
 import code.dao.PersonDAO;
 import code.models.Person;
+import code.service.PersonService;
 import code.util.PersonValidator;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.sql.SQLException;
+
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
   @Autowired private PersonDAO personDAO;
+  @Autowired private PersonService personService;
   @Autowired private PersonValidator personValidator;
 
   @GetMapping("/test")
   public String test(Model model) {
     model.addAttribute("person", personDAO.testInternalCall());
     return "people/show";
+  }
+
+  @PostMapping("/create-with-manual-tx")
+  public String createWithManualTransactions() throws SQLException {
+    personService.createTwoPeopleWithManualTransaction();
+    return "redirect:/";
+  }
+
+  @PostMapping("/create-with-auto-tx")
+  public String createWithAutoTransactions() {
+    personService.createTwoPeopleWithAutoTransaction();
+    return "redirect:/";
   }
 
   @GetMapping()
