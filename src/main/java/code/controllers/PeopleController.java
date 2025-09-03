@@ -4,6 +4,7 @@ import code.dao.PersonDAO;
 import code.models.Person;
 import code.service.PersonService;
 import code.util.PersonValidator;
+import java.sql.SQLException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.sql.SQLException;
-
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
@@ -26,10 +25,16 @@ public class PeopleController {
   @Autowired private PersonService personService;
   @Autowired private PersonValidator personValidator;
 
-  @GetMapping("/test")
-  public String test(Model model) {
-    model.addAttribute("person", personDAO.testInternalCall());
-    return "people/show";
+  @GetMapping("/save-direct-call")
+  public String saveDirectCall() throws SQLException {
+    personService.save(new Person(0, "Direct save person", 100, "test5@test.com"));
+    return "redirect:/";
+  }
+
+  @GetMapping("/save-internal-call")
+  public String saveInternalCall() throws SQLException {
+    personService.internalCallSave(new Person(0, "Internal save person", 100, "test6@test.com"));
+    return "redirect:/";
   }
 
   @PostMapping("/create-with-manual-tx")
@@ -39,7 +44,7 @@ public class PeopleController {
   }
 
   @PostMapping("/create-with-auto-tx")
-  public String createWithAutoTransactions() {
+  public String createWithAutoTransactions() throws SQLException {
     personService.createTwoPeopleWithAutoTransaction();
     return "redirect:/";
   }

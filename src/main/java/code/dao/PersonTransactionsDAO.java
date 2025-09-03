@@ -8,7 +8,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class PersonTransactionsDAO {
@@ -37,9 +36,9 @@ public class PersonTransactionsDAO {
         ps2.setString(3, person2.getEmail());
         ps2.executeUpdate();
 
-//        if (true) {
-//          throw new SQLException("Oh no, something was very wrong with DB!");
-//        }
+        //        if (true) {
+        //          throw new SQLException("Oh no, something was very wrong with DB!");
+        //        }
 
         connection.commit();
         System.out.println("Transaction committed with JdbcTemplate!");
@@ -57,7 +56,6 @@ public class PersonTransactionsDAO {
         person.getName(),
         person.getAge(),
         person.getEmail());
-    // also calls something
   }
 
   public void savePersonWithException(Person person) {
