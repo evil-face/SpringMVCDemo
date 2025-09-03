@@ -3,8 +3,10 @@ package code.config;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 public class MySpringMVCDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
@@ -26,6 +28,13 @@ public class MySpringMVCDispatcherServletInitializer extends AbstractAnnotationC
     public void onStartup(ServletContext aServletContext) throws ServletException {
         super.onStartup(aServletContext);
         registerHiddenFieldFilter(aServletContext);
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        MultipartConfigElement multipartConfigElement =
+                new MultipartConfigElement("/tmp", 10_000_000, 20_000_000, 500_000);
+        registration.setMultipartConfig(multipartConfigElement);
     }
 
     private void registerHiddenFieldFilter(ServletContext aContext) {

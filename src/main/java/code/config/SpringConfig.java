@@ -12,6 +12,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -96,5 +97,10 @@ public class SpringConfig implements WebMvcConfigurer {
   public void addInterceptors(
       org.springframework.web.servlet.config.annotation.InterceptorRegistry registry) {
     registry.addInterceptor(new LoggingInterceptor());
+  }
+
+  @Bean
+  public StandardServletMultipartResolver multipartResolver() {
+    return new StandardServletMultipartResolver();
   }
 }
